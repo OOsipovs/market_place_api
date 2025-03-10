@@ -14,4 +14,12 @@ class ProductTest < ActiveSupport::TestCase
   test "should filter products by name and test them" do
     assert_equal [ products(:another_tv), products(:one) ], Product.filter_by_title("tv").sort
   end
+
+  test "should filter products by price and filter them" do
+    assert_equal [ products(:two), products(:one) ], Product.above_or_equal_to_price(200).sort
+  end
+
+  test "should filter products by lower price and sort them" do
+    assert_equal [ products(:two), products(:one) ], Product.above_or_equal_to_price(200).sort
+  end
 end
