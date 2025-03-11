@@ -26,13 +26,13 @@ class Api::V1::ProductsController < ApplicationController
     end
 
     def index
-        @products = Product.all
+        @products = Product.search(params)
         render json: ProductSerializer.new(@products).serializable_hash.to_json
     end
 
     def show
         @product = Product.find(params[:id])
-        options = { include: [:user]}
+        options = { include: [ :user ] }
         render json: ProductSerializer.new(@product, options).serializable_hash.to_json
     end
 
