@@ -9,7 +9,7 @@ class Api::V1::OrdersController < ApplicationController
         order = current_user.orders.find(params[:id])
 
         if order
-            options = { include: [:products] }
+            options = { include: [ :products ] }
             render json: OrderSerializer.new(order, options).serializable_hash.to_json
         else
             head 404
@@ -20,10 +20,11 @@ class Api::V1::OrdersController < ApplicationController
         order = current_user.orders.build(order_params)
 
         if order.save
+            OrderMailer.send_confirmation(order).deliver
             render json: order, status: 201
         else
             render json: { errors: order.errors }, status: 422
-        end 
+        end
     end
 
     private
